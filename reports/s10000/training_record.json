@@ -1,0 +1,39 @@
+{
+  "status": "completed",
+  "runner_pid": 288701,
+  "argv": [
+    ".venv-lerobot/bin/lerobot-train",
+    "--policy.path=lerobot/smolvla_base",
+    "--dataset.repo_id=local/rebot_b601_pickcube_mp_yaw_n100",
+    "--dataset.root=data/lerobot/rebot_b601_pickcube_mp_yaw_n100",
+    "--rename_map={\"observation.images.wrist\": \"observation.images.camera1\", \"observation.images.overhead\": \"observation.images.camera2\"}",
+    "--policy.input_features={\"observation.state\": {\"type\": \"STATE\", \"shape\": [7]}, \"observation.images.camera1\": {\"type\": \"VISUAL\", \"shape\": [3, 256, 256]}, \"observation.images.camera2\": {\"type\": \"VISUAL\", \"shape\": [3, 256, 256]}, \"observation.images.camera3\": {\"type\": \"VISUAL\", \"shape\": [3, 256, 256]}}",
+    "--batch_size=8",
+    "--steps=10000",
+    "--save_freq=2000",
+    "--log_freq=100",
+    "--output_dir=outputs/smolvla_rebot_yaw_n100_s10000",
+    "--job_name=smolvla_rebot_v0",
+    "--seed=1000",
+    "--policy.push_to_hub=false",
+    "--wandb.enable=false"
+  ],
+  "started_at": "2026-10-13T17:20:54.219130+08:00",
+  "stats_id": "rebot_b601_mp_n100_8b856d06ab80d114",
+  "dataset": "data/lerobot/rebot_b601_pickcube_mp_yaw_n100",
+  "steps": 10000,
+  "batch_size": 8,
+  "seed": 1000,
+  "versions": {
+    "torch": "2.11.0+cu128",
+    "torchvision": "0.26.0+cu128",
+    "lerobot": "0.6.1",
+    "numpy": "2.2.6"
+  },
+  "converter_md5": "ef57317a886d0f214fc73c68bdbe0b6b",
+  "training_pid": 288703,
+  "gpu_monitor_pid": 288702,
+  "returncode": 0,
+  "elapsed_s": 2681.0139701366425,
+  "final_loss": 0.015
+}

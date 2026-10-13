@@ -1,0 +1,7 @@
+# Zero-residual gate + MuJoCo smoke (install into .venv)
+mujoco==3.15.0
+numpy>=2.0
+
+# Optional / heavy — NOT installed by default for gate smoke:
+# libero==0.1.1  # pulls torch+CUDA+robosuite+wandb+transformers; see scripts/attempt_libero_real_env.py
+# Path A LIBERO residual gate uses faithful stub until a dedicated venv lands.

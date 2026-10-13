@@ -1,0 +1,227 @@
+{
+  "name": "rebot_b601_dm_residual_env_v0",
+  "robot": "rebot_b601_dm",
+  "vendor_repo": "Yang-Ci/ReBot_Arm_DigitalTwin_DM",
+  "vendor_commit": "7456d8bc3cc6d9c470680988543f90bc8f3b03b0",
+  "n_dof": 7,
+  "joint_names": [
+    "joint1",
+    "joint2",
+    "joint3",
+    "joint4",
+    "joint5",
+    "joint6",
+    "finger_left"
+  ],
+  "actuator_names": [
+    "joint1_ctrl",
+    "joint2_ctrl",
+    "joint3_ctrl",
+    "joint4_ctrl",
+    "joint5_ctrl",
+    "joint6_ctrl",
+    "finger_ctrl"
+  ],
+  "equality_coupled_joints": [
+    "finger_right"
+  ],
+  "notes_equality": "finger_right = -finger_left via MJCF equality polycoef (matches joint_map_kinematic.yaml scale -1). Controlled list excludes finger_right like OpenArm excluded finger2.",
+  "obs_keys": [
+    "q",
+    "qdot",
+    "a_base",
+    "phase"
+  ],
+  "obs_dim": 22,
+  "action_dim": 7,
+  "action_unit": "physical",
+  "gripper_unit": "m",
+  "notes_action_unit": "M0 smoke: physical joint units matching MJCF. Arm dims in rad; gripper (finger_left) in meters. NEVER silently mix with LeRobot degree-space actions \u2014 unnormalize via MEAN_STD only after locking stats_id. Until then stats_id=pending_rebot_b601_dm / stats_source=none.",
+  "lerobot_gripper_unit": "deg",
+  "notes_lerobot_gripper": "Seeed LeRobot B601 follower often exposes joint/gripper in degrees (or normalized). MJCF digital-twin gripper is meters (finger_left slide 0..0.05). Web console sometimes shows 0..0.09 m opening width. Mapping deg\u2194m is REQUIRED before wiring real MEAN_STD / FakeBase from LeRobot demos; do not invent a scale here \u2014 measure from calibration / firmware (HardwareManager) when locking stats.",
+  "action_dim_map": [
+    {
+      "index": 0,
+      "name": "joint1",
+      "actuator": "joint1_ctrl",
+      "unit": "rad",
+      "mjcf_range": [
+        -2.8,
+        2.8
+      ],
+      "role": "arm"
+    },
+    {
+      "index": 1,
+      "name": "joint2",
+      "actuator": "joint2_ctrl",
+      "unit": "rad",
+      "mjcf_range": [
+        -3.14,
+        0.0
+      ],
+      "role": "arm"
+    },
+    {
+      "index": 2,
+      "name": "joint3",
+      "actuator": "joint3_ctrl",
+      "unit": "rad",
+      "mjcf_range": [
+        -3.14,
+        0.0
+      ],
+      "role": "arm"
+    },
+    {
+      "index": 3,
+      "name": "joint4",
+      "actuator": "joint4_ctrl",
+      "unit": "rad",
+      "mjcf_range": [
+        -1.87,
+        1.57
+      ],
+      "role": "arm"
+    },
+    {
+      "index": 4,
+      "name": "joint5",
+      "actuator": "joint5_ctrl",
+      "unit": "rad",
+      "mjcf_range": [
+        -1.57,
+        1.57
+      ],
+      "role": "arm"
+    },
+    {
+      "index": 5,
+      "name": "joint6",
+      "actuator": "joint6_ctrl",
+      "unit": "rad",
+      "mjcf_range": [
+        -3.14,
+        3.14
+      ],
+      "role": "arm"
+    },
+    {
+      "index": 6,
+      "name": "finger_left",
+      "actuator": "finger_ctrl",
+      "unit": "m",
+      "mjcf_range": [
+        0.0,
+        0.05
+      ],
+      "role": "gripper",
+      "mimic": {
+        "finger_right": "q = -finger_left"
+      },
+      "lerobot_unit_pending": "deg"
+    }
+  ],
+  "clip_c_schedule": [
+    0.03,
+    0.05,
+    0.1
+  ],
+  "clip_c_default": 0.03,
+  "finger_bound_m": 0.05,
+  "notes_finger_bound": "finger_bound_m=0.05 is residual \u03b4 bound in meters (gripper_unit=m); matches MJCF finger_left ctrlrange [0, 0.05]. Arm clip_c is radians \u2014 do not apply finger_bound_m to arm dims.",
+  "finger_ctrlrange_xml": [
+    0.0,
+    0.05
+  ],
+  "chunk_size": 50,
+  "control_hz": 20,
+  "notes_control_hz": "Residual control step locked at 20 Hz (same as OpenArm residual gate). Real-robot / ROS bringup often 100 Hz \u2014 that is NOT this gate's control_hz. Residual \u03b4 applies only at control steps (n_substeps = 1/(control_hz*sim_dt) mj_steps). Do not silently mix 100 Hz docs into residual PPO step size.",
+  "sim_dt": 0.001,
+  "n_substeps": 50,
+  "atol_zero_residual": 1e-06,
+  "camera_in_env": true,
+  "reward_version": "v0_sparse_success_plus_delta_l2",
+  "log_fields_min": [
+    "phase",
+    "chunk_idx",
+    "a_base",
+    "delta",
+    "a_exec",
+    "seed",
+    "obs_keys_hash",
+    "reward_version",
+    "clip_c",
+    "chunk_refresh",
+    "chunk_stale",
+    "cube_z",
+    "success",
+    "ever_lift",
+    "held_steps",
+    "failure_mode"
+  ],
+  "stats_id": "pending_rebot_b601_dm",
+  "stats_source": "none",
+  "qpos_dim_model": 29,
+  "notes_qpos": "model nq=29 = 3 freejoint objects (7 each) + joint1..6 + finger_left + finger_right. Actor obs q/qdot use contract joint_names only (7 DoF). Actuators nu=7 match 1:1. finger_right equality-coupled.",
+  "cube_body": "red_cube",
+  "notes_cube": "Prefer official STL scene red_cube (freejoint box size 0.025); also blue_block + yellow_cylinder present. Do not invent a second cube.",
+  "model_xml_robot": "vendor/rebot_arm_digitaltwin_dm/reBotArm_ros2_DM/src/rebotarm_mujoco/models/rebotarm_b601_stl.xml",
+  "model_xml_scene": "sim/rebot_b601/scene_residual.xml",
+  "notes_scene": "LOCAL overlay under sim/rebot_b601/: STL content + meshdir retarget + position actuators \u00d77 + finger equality + home keyframe. Vendor XML untouched (upstream nu=0).",
+  "camera_in_actor_obs": false,
+  "cameras": [
+    {
+      "name": "overhead",
+      "lerobot_key": "observation.images.overhead",
+      "body": "worldbody",
+      "mount": "fixed",
+      "width": 640,
+      "height": 480,
+      "channels": "rgb",
+      "fovy": 50,
+      "fps": 30,
+      "pos": "0.42 0 0.86",
+      "xyaxes": "1 0 0 0 1 0",
+      "euler": null,
+      "source_name": "overhead_rgb",
+      "notes": "EXACT copy from official rebotarm_b601_stl.xml overhead_rgb. NOT OpenArm head. Render target 640x480 (official has no resolution attr)."
+    },
+    {
+      "name": "wrist",
+      "lerobot_key": "observation.images.wrist",
+      "body": null,
+      "mount": "pending",
+      "width": 640,
+      "height": 480,
+      "channels": "rgb",
+      "fovy": null,
+      "fps": 30,
+      "pos": null,
+      "xyaxes": null,
+      "euler": null,
+      "source_name": null,
+      "notes": "LeRobot key frozen as observation.images.wrist. Official MJCF has NO wrist camera (hardware D405 mount only). Extrinsics NOT invented \u2014 MJCF wrist pending / self-build. Gate may run without wrist render."
+    }
+  ],
+  "notes_camera": "camera_in_env=true: overhead from official overhead_rgb; wrist key reserved but MJCF pending (do NOT invent extrinsics). LeRobot keys frozen: observation.images.wrist + observation.images.overhead. Never call overhead 'head'. camera_in_actor_obs=false. Extrinsics (overhead only) enter obs_keys_hash digest; wrist nulls hash as pending.",
+  "camera_fps": 30,
+  "extrinsics_source": "rebot_b601_stl_overhead_rgb_only",
+  "extrinsics_source_paths": {
+    "overhead": "vendor/.../models/rebotarm_b601_stl.xml :: overhead_rgb",
+    "wrist": "PENDING_not_in_official_MJCF"
+  },
+  "extrinsics_notes": "overhead = official. wrist = not invented. Aligns with docs/ReBot_B601_DM_Survey.md.",
+  "table_top_z": 0.03,
+  "cube_half": 0.025,
+  "cube_rest_z": 0.055,
+  "z_lift_rel": 0.08,
+  "z_lift_abs": 0.135,
+  "success_hold_steps": 20,
+  "lambda_delta": 0.01,
+  "R_term": 1.0,
+  "t_max": 300,
+  "drop_margin": 0.02,
+  "notes_reward_success": "reward_version=v0_sparse_success_plus_delta_l2: r=-\u03bb\u2016\u03b4\u2016\u00b2 + 1{success_just_now}\u00b7R_term. NO w_z\u00b7cube_z shaping. success=(cube_z>=z_lift_abs)&(held_steps>=H); privilege only in reward/info, NEVER Actor obs. Geometry: table_top_z=task_table.z+half=0.015+0.015=0.03; cube_rest_z=red_cube pos z=0.055 (half=0.025); z_lift_abs=cube_rest_z+z_lift_rel=0.055+0.08=0.135. Changing z_lift_abs/H/\u03bb/R_term MUST bump reward_version. VLA demo success labels MUST reuse the SAME z_lift_abs+H from this contract.",
+  "notes_failure_mode": "failure_mode \u2208 {none,timeout,drop,unsafe}. timeout=truncated by t_max; drop=ever_lift then cube_z<(cube_rest_z+drop_margin) before success; unsafe=NaN in q/qdot/ctrl or q outside joint hard range (minimal); else none while running/on success."
+}

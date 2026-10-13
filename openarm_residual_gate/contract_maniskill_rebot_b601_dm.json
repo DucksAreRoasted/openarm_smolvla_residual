@@ -1,0 +1,260 @@
+{
+  "name": "maniskill_rebot_b601_dm_residual_env_v0",
+  "status": "draft_interface_only_no_env_created",
+  "sim": {
+    "owner": "sim",
+    "simulator": "ManiSkill3",
+    "mani_skill_version": "3.0.1",
+    "robot": "rebot_b601_dm",
+    "agent_uid": "rebot_b601_dm",
+    "agent_module": "sim/maniskill_rebot/rebot_b601_agent.py",
+    "agent_class": "ReBotB601DM",
+    "urdf_path": "sim/maniskill_rebot/ReBot_Arm_DM_ms3.urdf",
+    "urdf_source": "vendor/rebot_arm_digitaltwin_dm/reBotArm_ros2_DM/src/rebotarm_bringup/description/urdf/ReBot_Arm_DM.urdf",
+    "vendor_commit": "7456d8bc3cc6d9c470680988543f90bc8f3b03b0",
+    "urdf_mesh_paths": "relative to urdf file (package:// rewritten); vendor untouched",
+    "control_mode": "pd_joint_pos",
+    "sim_freq_hz": 100,
+    "control_freq_hz": 20,
+    "control_hz": 20,
+    "notes_freq": "MS3 3.0.1 SimConfig defaults (utils/structs/types.py: sim_freq=100, control_freq=20) -> 5 physx substeps/control step. Matches existing ReBot MuJoCo contract control_hz=20.",
+    "arm_joint_names": [
+      "joint1",
+      "joint2",
+      "joint3",
+      "joint4",
+      "joint5",
+      "joint6"
+    ],
+    "gripper_control_joint": "finger_left",
+    "gripper_mimic_joint": "finger_right",
+    "joint_names": [
+      "joint1",
+      "joint2",
+      "joint3",
+      "joint4",
+      "joint5",
+      "joint6",
+      "finger_left"
+    ],
+    "joint_limits": {
+      "joint1": [
+        -2.8,
+        2.8
+      ],
+      "joint2": [
+        -3.14,
+        0
+      ],
+      "joint3": [
+        -3.14,
+        0
+      ],
+      "joint4": [
+        -1.87,
+        1.57
+      ],
+      "joint5": [
+        -1.57,
+        1.57
+      ],
+      "joint6": [
+        -3.14,
+        3.14
+      ],
+      "finger_left": [
+        0.0,
+        0.05
+      ],
+      "finger_right": [
+        -0.05,
+        0.0
+      ]
+    },
+    "action_dim": 7,
+    "gripper_mimic": "finger_right = -1*finger_left + 0 via PDJointPosMimicControllerConfig(mimic={'finger_right':{'joint':'finger_left','multiplier':-1,'offset':0}}); finger_right is not an action dim",
+    "units": {
+      "arm": "rad",
+      "gripper": "m"
+    },
+    "action_adapter": {
+      "direction": "lerobot(deg) -> ms3(rad/m)",
+      "arm_0_5": "rad = deg*pi/180",
+      "gripper": "deg -> m linear map; endpoints TBD from dataset (see vla.adapter.gripper)",
+      "authority": "URDF meters"
+    },
+    "tcp_link": "end_link",
+    "tcp_offset": "pending_measure",
+    "rest_qpos": "zeros(8) placeholder; align with FakeBase/real home",
+    "pd_gains": "unidentified (so100-style 1e3/1e2)",
+    "cameras": [
+      {
+        "uid": "overhead",
+        "mount": "world_fixed",
+        "pose": "pending",
+        "width": 640,
+        "height": 480,
+        "notes": "MuJoCo overhead_rgb pos 0.42 0 0.86 may be ported but frame convention unverified"
+      },
+      {
+        "uid": "wrist",
+        "mount": "pending",
+        "pose": null,
+        "extrinsics": "unauthored",
+        "notes": "no official sim wrist mount; do not invent"
+      }
+    ],
+    "task": {
+      "template": "PickCube-v1",
+      "planned_env_id": "PickCubeReBot-v1 (subclass like PickCubeSO100-v1)",
+      "success": "env.evaluate()['success'] (is_obj_placed & is_robot_static)"
+    },
+    "base_source": "pending_user_decision",
+    "object_pose_to": [
+      "critic",
+      "reward"
+    ],
+    "object_pose_in_actor_obs": false,
+    "requires": "NVIDIA GPU + Vulkan for env creation; not available on box",
+    "stats_id_ref": "vla.stats_id (VLA owns)",
+    "init_pose": {
+      "keyframe": "rest",
+      "qpos": [
+        0.0014,
+        -0.7907,
+        -1.0702,
+        1.5003,
+        0.0009,
+        3.1,
+        0.02,
+        -0.02
+      ],
+      "tcp_world_approx": [
+        0.14,
+        0,
+        0.2
+      ],
+      "status": "frozen_after_smoke_20261013_112820",
+      "note": "示范采集、B0、残差训练共用；改动需重测 B0"
+    },
+    "finger_self_collision": "disabled: finger_left/right + link6 + end_link (group2 bit4)",
+    "max_episode_steps": 300,
+    "success": {
+      "lift_h_mult": 1.25,
+      "lift_h_m": 0.05,
+      "hold_steps_k": 10,
+      "is_grasped_required": true,
+      "grasp_min_force": 0.5,
+      "status": "confirmed_20261013_weiqiang"
+    }
+  },
+  "vla": {
+    "fragment_of": "contract_maniskill_rebot_b601_dm.json",
+    "owner": "VLA与数据研究员",
+    "status": "draft",
+    "robot_type": "rebot_b601_follower",
+    "robot_type_aliases": [
+      "seeed_b601_dm_follower"
+    ],
+    "lerobot_joint_names": [
+      "shoulder_pan",
+      "shoulder_lift",
+      "elbow_flex",
+      "wrist_flex",
+      "wrist_yaw",
+      "wrist_roll",
+      "gripper"
+    ],
+    "lerobot_action_key": "action",
+    "lerobot_action_unit": "deg_absolute",
+    "lerobot_state_key": "observation.state",
+    "lerobot_state_dim": 7,
+    "observation_key_map": {
+      "wrist": {
+        "lerobot": "observation.images.wrist",
+        "sim_camera_uid": "wrist",
+        "extrinsics": "unauthored"
+      },
+      "overhead": {
+        "lerobot": "observation.images.overhead",
+        "sim_camera_uid": "overhead",
+        "extrinsics": "unauthored"
+      },
+      "notes": "Image key names provisional: must be renamed to match the single stats-source dataset's meta/info.json once chosen; do not invent aliases beyond that rename."
+    },
+    "camera_in_actor_obs": false,
+    "adapter": {
+      "arm_joints_0_5": "rad = deg * pi/180",
+      "gripper": {
+        "lerobot_unit": "deg_common_joint_space",
+        "lerobot_range_deg": "pending_verify_from_rebot_b601_follower.py_and_stats_dataset",
+        "urdf_joint": "finger_left",
+        "urdf_unit": "m",
+        "urdf_range_m": [
+          0.0,
+          0.05
+        ],
+        "mimic": "finger_right = -1 * finger_left (driven by sim)",
+        "map": "linear deg->m between verified endpoints; endpoints NOT authored until verified"
+      }
+    },
+    "stats_id": "pending_single_dataset_rebot_b601",
+    "stats_source_policy": "exactly one HF dataset; camera set closest to wrist+overhead; no cross-dataset merge in v0",
+    "demo_success_alignment": "pending base-source decision (MS3-collected demos vs scene matched to a real dataset task); success must equal env evaluate()['success'] for sim demos"
+  },
+  "residual": {
+    "owner": "residual_rl",
+    "status": "draft_cpu_only_no_training",
+    "action_dim": 7,
+    "delta_dims": "all arm joints + finger_left only; finger_right (mimic) gets no residual",
+    "clip_c": {
+      "arm": {
+        "unit": "rad",
+        "schedule": [
+          0.03,
+          0.05,
+          0.1
+        ]
+      },
+      "gripper": {
+        "unit": "m",
+        "value": "TBD_after_smoke"
+      }
+    },
+    "reward": "evaluate()['success'] (sparse) - lambda*||delta||^2",
+    "lambda_delta": "TBD",
+    "actor_obs_keys": [
+      "q",
+      "qdot",
+      "a_base",
+      "phase"
+    ],
+    "a_exec": "clip(a_base + delta)",
+    "delta_dofs": [
+      "joint1..joint6 (rad)",
+      "finger_left (m)"
+    ],
+    "finger_right": "mimic_follow_no_residual",
+    "clip_c_joint_rad_candidates": [
+      0.03,
+      0.05,
+      0.1
+    ],
+    "clip_c_gripper_m": null,
+    "last_layer_init": "zeros",
+    "zero_residual_gate": "delta=0 must equal base exactly",
+    "actor_images": false,
+    "privileged_state": "critic_and_reward_only",
+    "reward_spec": {
+      "version": "ms3_rebot_v0_sparse_success_plus_delta_l2",
+      "success_source": "env.evaluate()['success']",
+      "lambda_delta_l2": null
+    },
+    "gates": {
+      "B0_required_before_residual_training": true,
+      "B0_success_rate_window": "pending_user_decision_on_base_source"
+    },
+    "fragment_source": "contract_maniskill_rebot_b601_dm.residual_fragment.json"
+  },
+  "open_conflicts": []
+}

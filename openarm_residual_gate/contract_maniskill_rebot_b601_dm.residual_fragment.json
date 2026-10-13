@@ -1,0 +1,27 @@
+{
+  "fragment": "residual",
+  "status": "draft_cpu_only_no_training",
+  "residual": {
+    "a_exec": "clip(a_base + delta)",
+    "action_dim": 7,
+    "delta_dofs": ["joint1..joint6 (rad)", "finger_left (m)"],
+    "finger_right": "mimic_follow_no_residual",
+    "clip_c_joint_rad_candidates": [0.03, 0.05, 0.10],
+    "clip_c_gripper_m": null,
+    "last_layer_init": "zeros",
+    "zero_residual_gate": "delta=0 must equal base exactly"
+  },
+  "actor_obs": ["q", "qdot", "a_base", "phase"],
+  "actor_images": false,
+  "privileged_state": "critic_and_reward_only",
+  "reward": {
+    "version": "ms3_rebot_v0_sparse_success_plus_delta_l2",
+    "success_source": "env.evaluate()['success']",
+    "lambda_delta_l2": null
+  },
+  "gates": {
+    "B0_required_before_residual_training": true,
+    "B0_success_rate_window": "pending_user_decision_on_base_source"
+  },
+  "notes": "null fields calibrated only after user-approved 4090 smoke test; no values copied from mothinf/vla-residual-rl"
+}

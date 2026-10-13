@@ -1,0 +1,20 @@
+{
+ "env_id": "PickCubeReBot-v1",
+ "T": 300,
+ "policy": "smolvla",
+ "n": 5,
+ "successes": 5,
+ "rate": 1.0,
+ "wilson95": [
+  0.5655085052479191,
+  1.0
+ ],
+ "seeds": [
+  10000,
+  10001,
+  10002,
+  10003,
+  10004
+ ],
+ "cam_rand": false
+}

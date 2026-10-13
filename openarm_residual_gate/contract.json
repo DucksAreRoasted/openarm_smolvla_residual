@@ -1,0 +1,117 @@
+{
+  "name": "openarm_v1_residual_env_v0",
+  "robot": "openarm_v1_single_arm",
+  "n_dof": 8,
+  "joint_names": [
+    "openarm_joint1",
+    "openarm_joint2",
+    "openarm_joint3",
+    "openarm_joint4",
+    "openarm_joint5",
+    "openarm_joint6",
+    "openarm_joint7",
+    "openarm_finger_joint1"
+  ],
+  "actuator_names": [
+    "joint1_ctrl",
+    "joint2_ctrl",
+    "joint3_ctrl",
+    "joint4_ctrl",
+    "joint5_ctrl",
+    "joint6_ctrl",
+    "joint7_ctrl",
+    "finger_ctrl"
+  ],
+  "obs_keys": [
+    "q",
+    "qdot",
+    "a_base",
+    "phase"
+  ],
+  "obs_dim": 25,
+  "action_dim": 8,
+  "action_unit": "physical",
+  "notes_action_unit": "smoke: physical joint units; real SmolVLA: unnormalize with single-arm MEAN_STD only (ban dual-arm stats), bump config version + obs_keys_hash; until then stats_id=pending_single_arm / stats_source=none",
+  "clip_c_schedule": [
+    0.03,
+    0.05,
+    0.1
+  ],
+  "clip_c_default": 0.03,
+  "finger_bound_m": 0.05,
+  "chunk_size": 50,
+  "control_hz": 20,
+  "sim_dt": 0.001,
+  "n_substeps": 50,
+  "atol_zero_residual": 1e-06,
+  "camera_in_env": true,
+  "reward_version": "v0_sparse_success_plus_delta_l2",
+  "log_fields_min": [
+    "phase",
+    "chunk_idx",
+    "a_base",
+    "delta",
+    "a_exec",
+    "seed",
+    "obs_keys_hash",
+    "reward_version",
+    "clip_c",
+    "chunk_refresh",
+    "chunk_stale"
+  ],
+  "stats_id": "pending_single_arm",
+  "stats_source": "none",
+  "qpos_dim_model": 9,
+  "notes_qpos": "model nq=9 includes equality-coupled openarm_finger_joint2; Actor obs q/qdot use contract joint_names (8 DoF). Actuators match 1:1.",
+  "model_xml_robot": "vendor/openarm_mujoco/v1/openarm.xml",
+  "model_xml_scene": "vendor/openarm_mujoco/v1/scene_single_arm.xml",
+  "notes_scene": "Upstream v1/scene.xml is BIMANUAL. scene_single_arm.xml local overlay: robot+floor+head camera. wrist camera LOCAL overlay in openarm.xml under openarm_hand.",
+  "finger_ctrlrange_xml": [
+    -0.005,
+    0.044
+  ],
+  "notes_finger_bound": "finger_bound_m=0.05 is residual δ bound; XML finger ctrlrange is [-0.005, 0.044].",
+  "camera_in_actor_obs": false,
+  "cameras": [
+    {
+      "name": "head",
+      "lerobot_key": "observation.images.head",
+      "body": "worldbody",
+      "mount": "fixed",
+      "width": 640,
+      "height": 480,
+      "channels": "rgb",
+      "fovy": 52,
+      "fps": 30,
+      "pos": "0.223 -0.0315 1.45",
+      "xyaxes": "0 -1 0 0.882948 0 0.469472",
+      "euler": null,
+      "source_name": "camera_head_right",
+      "notes": "EXACT copy from vendor/openarm_mujoco/v2/cell/cell.xml camera_head_right. NOT ceiling/top. Official resolution attr 1280x720 is annotation; we render 640x480."
+    },
+    {
+      "name": "wrist",
+      "lerobot_key": "observation.images.wrist",
+      "body": "openarm_hand",
+      "mount": "body",
+      "width": 640,
+      "height": 480,
+      "channels": "rgb",
+      "fovy": 66,
+      "fps": 30,
+      "pos": "0.023 -0.0182 -0.10236",
+      "xyaxes": null,
+      "euler": "0.366519 0.22689 -1.5708",
+      "source_name": "camera_wrist_right",
+      "notes": "EXACT copy from v2/openarm_bimanual.xml camera_wrist_right. Parent v1 openarm_hand ≠ v2 ee_base_link."
+    }
+  ],
+  "notes_camera": "camera_in_env=true: head+wrist RGB via mujoco.Renderer (EGL), 640x480 @ 30fps. LeRobot keys: observation.images.head / observation.images.wrist. camera_in_actor_obs=false. Extrinsics in obs_keys_hash digest.",
+  "camera_fps": 30,
+  "extrinsics_source": "openarm_mujoco_v2_cell_head_right_wrist_right",
+  "extrinsics_source_paths": {
+    "head": "vendor/openarm_mujoco/v2/cell/cell.xml :: camera_head_right",
+    "wrist": "vendor/openarm_mujoco/v2/openarm_bimanual.xml :: camera_wrist_right"
+  },
+  "extrinsics_notes": "User requirement: one camera on wrist, one on head. head≠ceiling. Copied official camera_head_right + camera_wrist_right numbers. Removed top/ceiling from Env cameras."
+}

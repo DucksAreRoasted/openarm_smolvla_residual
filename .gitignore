@@ -1,0 +1,47 @@
+# Local environments and Python caches
+.venv/
+.venv-*/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# Generated datasets, model checkpoints and diagnostics
+/data/
+/outputs/
+/logs/
+/checkpoints/
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+*.npz
+*.npy
+*.parquet
+*.mp4
+*.avi
+
+# Download third-party repositories and regenerate meshes locally
+/vendor/*
+!/vendor/*.txt
+/sim/maniskill_rebot/plan/meshes/
+*.stl
+*.STL
+*.dae
+*.obj
+
+# Transfer archives and local credentials/settings
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.7z
+.env
+.env.*
+!.env.example
+.aws/
+.codex/
+.agents/
+.DS_Store

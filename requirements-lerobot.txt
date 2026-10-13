@@ -1,0 +1,8 @@
+# Python 3.12; see docs/统一仿真环境与冒烟测试执行手册.md for ManiSkill.
+--extra-index-url https://download.pytorch.org/whl/cu128
+lerobot[smolvla,training]==0.6.1
+# Keep the verified PyTorch / TorchCodec combination together.
+torch==2.11.0+cu128
+torchvision==0.26.0+cu128
+torchcodec==0.11.1
+numpy==2.2.6

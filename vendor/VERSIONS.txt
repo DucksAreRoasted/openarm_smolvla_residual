@@ -1,0 +1,12 @@
+openarm_mujoco 0e050bb5d3472b75c6bfa00b310a77c7c2c5be79
+mujoco 3.15.0
+numpy 2.5.4
+date 2026-10-12
+
+# ReBot B601-DM survey clone (2026-10-12 Asia/Shanghai)
+rebot_arm_digitaltwin_dm https://github.com/Yang-Ci/ReBot_Arm_DigitalTwin_DM.git
+rebot_arm_digitaltwin_dm_COMMIT 7456d8bc3cc6d9c470680988543f90bc8f3b03b0
+# local symlink for MJCF meshdir: vendor/.../rebotarm_mujoco/meshes -> ../rebotarm_bringup/description/meshes
+# OpenArm vendor retained intentionally (do not delete)
+rebot_devarm_hw 69de7380656a86440aead27692dc6deee1a7f024
+openarm_hw 8325c0601d20bbb97f5a73029f5df6092a4ab93b

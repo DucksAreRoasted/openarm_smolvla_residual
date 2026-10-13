@@ -1,0 +1,80 @@
+{
+  "file": "camera_config_v0",
+  "status": "approx_layout_locked_no_calibration",
+  "note": "新文件；不改任何现有 contract。位置按用户原则取大致值，未经实物标定。",
+  "rebot_b601_dm": {
+    "wrist": {
+      "uid": "wrist",
+      "lerobot_key": "observation.images.wrist",
+      "mount_link": "end_link",
+      "pose_p": [
+        -0.0979,
+        0.0091,
+        0.1076
+      ],
+      "pose_q_wxyz": [
+        0.9641,
+        0.0026,
+        0.2656,
+        -0.0035
+      ],
+      "frame": "camera_color_frame (x前 y左 z上 = SAPIEN 相机系)",
+      "source": "官方 d405.urdf 链(gripper_end→camera_color_frame) × T(end_link←gripper_end)，后者按 RS/DM link6 几何一致假设推导，待 STEP 核对",
+      "model": "RealSense D405",
+      "width": 640,
+      "height": 480,
+      "fps": 30,
+      "fov_rad": null,
+      "fov_note": "D405 彩色 FOV 待从 Intel 规格表核实，暂空"
+    },
+    "overhead": {
+      "uid": "overhead",
+      "lerobot_key": "observation.images.overhead",
+      "mount_link": null,
+      "pos": [
+        0.42,
+        0.0,
+        0.86
+      ],
+      "look": "竖直向下（复刻官方 MJCF overhead_rgb xyaxes=1 0 0 0 1 0）",
+      "fovy_deg": 50,
+      "width": 640,
+      "height": 480,
+      "fps": 30
+    }
+  },
+  "openarm_v1": {
+    "wrist_left": {
+      "uid": "wrist_left",
+      "lerobot_key": "observation.images.wrist_left",
+      "pose": null
+    },
+    "wrist_right": {
+      "uid": "wrist_right",
+      "lerobot_key": "observation.images.wrist_right",
+      "pose": null
+    },
+    "head": {
+      "uid": "head",
+      "lerobot_key": "observation.images.head",
+      "pose": null
+    },
+    "note": "v1 无官方仿真外参；腕部待按 CAD 估，head 等用户给大致值"
+  },
+  "residual_camera_randomization": {
+    "enabled_for_residual_training": true,
+    "pos_range_m": null,
+    "rot_range_rad": null,
+    "note": "base sim demo 与残差共用同一范围；范围待冒烟后定，不编数",
+    "applies_to": [
+      "residual_training",
+      "base_sim_demo_collection"
+    ]
+  },
+  "demo_recording": {
+    "record_hz": 20,
+    "frame_policy": "每控制步取最近一帧",
+    "info_json_fps": 20,
+    "raw_30fps": "另存，不进训练集"
+  }
+}

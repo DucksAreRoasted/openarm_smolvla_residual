@@ -1,0 +1,33 @@
+# SmolVLA 微调配置草案（ReBot B601-DM，ManiSkill3 运动规划示范，方案一）
+# 状态：规划稿，未运行。冒烟通过且用户点头前不启动任何训练。
+policy:
+  type: smolvla
+  pretrained: lerobot/smolvla_base
+  input_features:            # 键名锁定，与 camera_config_v0.json 一一对应
+    observation.state: {dim: 7}            # joint1..6 rad + finger_left m（sim 口径）
+    observation.images.wrist: {shape: [3, 480, 640]}
+    observation.images.overhead: {shape: [3, 480, 640]}
+  output_features:
+    action: {dim: 7}                       # 与 pd_joint_pos 同空间；残差 a_exec=a_base+clip(δ)
+  chunk_size: 50                           # 与现有 ChunkScheduler 一致；4090 冒烟后再议
+  n_action_steps: 50
+  normalization:
+    mode: MEAN_STD
+    stats_id: rebot_b601_mp_n100_091a05ee19fea9ba   # 由 sim demo 计算，demo 正式采完后再锁并 bump
+dataset:
+  source: data/mp_demos_*      # gen_mp_demos_rebot.py 产物，转 LeRobot v3 后使用
+  fps: 20
+  success_filter: env.evaluate()['success']
+  camera_randomization: off_until_range_locked
+  n_episodes: TBD              # 冒烟后定，不编数
+train:
+  steps: TBD
+  batch_size: TBD
+  seed: [0]
+  hardware: user_4090
+  gate: "冒烟 PASS + 用户确认后才可启动"
+eval:
+  hand_off: Residual RL研究员 B0 脚本（同 env、同 success 判据、held-out seeds）
+notes:
+  - sim 状态夹爪单位是 m；与真机 LeRobot（度）不同，迁真机时由 ActionAdapter 转换，stats 不混用。
+  - 测试 seed 不参与示范生成，避免测试集泄漏。

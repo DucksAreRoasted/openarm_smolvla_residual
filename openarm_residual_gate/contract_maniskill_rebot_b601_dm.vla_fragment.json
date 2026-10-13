@@ -1,0 +1,33 @@
+{
+  "fragment_of": "contract_maniskill_rebot_b601_dm.json",
+  "owner": "VLA与数据研究员",
+  "status": "draft",
+  "robot_type": "rebot_b601_follower",
+  "robot_type_aliases": ["seeed_b601_dm_follower"],
+  "lerobot_joint_names": ["shoulder_pan","shoulder_lift","elbow_flex","wrist_flex","wrist_yaw","wrist_roll","gripper"],
+  "lerobot_action_key": "action",
+  "lerobot_action_unit": "deg_absolute",
+  "lerobot_state_key": "observation.state",
+  "lerobot_state_dim": 7,
+  "observation_key_map": {
+    "wrist": {"lerobot": "observation.images.wrist", "sim_camera_uid": "wrist", "extrinsics": "unauthored"},
+    "overhead": {"lerobot": "observation.images.overhead", "sim_camera_uid": "overhead", "extrinsics": "unauthored"},
+    "notes": "Image key names provisional: must be renamed to match the single stats-source dataset's meta/info.json once chosen; do not invent aliases beyond that rename."
+  },
+  "camera_in_actor_obs": false,
+  "adapter": {
+    "arm_joints_0_5": "rad = deg * pi/180",
+    "gripper": {
+      "lerobot_unit": "deg_common_joint_space",
+      "lerobot_range_deg": "pending_verify_from_rebot_b601_follower.py_and_stats_dataset",
+      "urdf_joint": "finger_left",
+      "urdf_unit": "m",
+      "urdf_range_m": [0.0, 0.05],
+      "mimic": "finger_right = -1 * finger_left (driven by sim)",
+      "map": "linear deg->m between verified endpoints; endpoints NOT authored until verified"
+    }
+  },
+  "stats_id": "pending_single_dataset_rebot_b601",
+  "stats_source_policy": "exactly one HF dataset; camera set closest to wrist+overhead; no cross-dataset merge in v0",
+  "demo_success_alignment": "pending base-source decision (MS3-collected demos vs scene matched to a real dataset task); success must equal env evaluate()['success'] for sim demos"
+}

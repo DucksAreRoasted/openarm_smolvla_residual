@@ -1,0 +1,22 @@
+{
+  "argv": [
+    ".venv-lerobot/bin/lerobot-train",
+    "--policy.path=lerobot/smolvla_base",
+    "--dataset.repo_id=local/rebot_b601_pickcube_mp_yaw_n100",
+    "--dataset.root=data/lerobot/rebot_b601_pickcube_mp_yaw_n100",
+    "--rename_map={\"observation.images.wrist\": \"observation.images.camera1\", \"observation.images.overhead\": \"observation.images.camera2\"}",
+    "--policy.input_features={\"observation.state\": {\"type\": \"STATE\", \"shape\": [7]}, \"observation.images.camera1\": {\"type\": \"VISUAL\", \"shape\": [3, 256, 256]}, \"observation.images.camera2\": {\"type\": \"VISUAL\", \"shape\": [3, 256, 256]}, \"observation.images.camera3\": {\"type\": \"VISUAL\", \"shape\": [3, 256, 256]}}",
+    "--batch_size=8",
+    "--steps=10000",
+    "--save_freq=2000",
+    "--log_freq=100",
+    "--output_dir=outputs/smolvla_rebot_yaw_n100_s10000",
+    "--job_name=smolvla_rebot_v0",
+    "--seed=1000",
+    "--policy.push_to_hub=false",
+    "--wandb.enable=false"
+  ],
+  "estimated_minutes": 45.1,
+  "stats_id": "rebot_b601_mp_n100_8b856d06ab80d114",
+  "state_feature_override_reason": "dataset is 7D; inherited pretrained metadata was 6D; max_state_dim remains 32"
+}
